@@ -17,8 +17,8 @@ const INITIAL_STATE = {
 let _socket = null;   // module-level singleton so page.jsx and hook share the same conn
 
 function getSocket() {
-  if (!_socket || _socket.disconnected) {
-    _socket = io('http://localhost:8000', { transports: ['websocket', 'polling'] });
+  if (!_socket) {
+    _socket = io('https://adcc-mpf6.onrender.com', { transports: ['websocket', 'polling'] });
   }
   return _socket;
 }

@@ -47,7 +47,7 @@ export default function DashboardPage() {
 
   const handleTriggerDisaster = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/disaster/create', {
+      const res = await fetch('https://adcc-mpf6.onrender.com/api/disaster/create', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({}),   // backend picks a random scenario
