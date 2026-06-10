@@ -18,7 +18,7 @@ let _socket = null;   // module-level singleton so page.jsx and hook share the s
 
 function getSocket() {
   if (!_socket || _socket.disconnected) {
-    _socket = io('http://localhost:8000', { transports: ['websocket', 'polling'] });
+    _socket = io(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000', { transports: ['websocket', 'polling'] });
   }
   return _socket;
 }

@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2
+python-socketio
+pydantic
+langgraph
+ortools
+pytest
