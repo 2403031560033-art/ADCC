@@ -12,9 +12,9 @@ export default function AgentPanel({ agentUpdates }) {
   const agents = ['coordinator', 'route', 'resource', 'medical', 'drone'];
 
   return (
-    <div style={{ background: '#0F1E35', border: '1px solid #1E3050', borderRadius: '12px', padding: '1.25rem', height: '100%' }}>
+    <div style={{ background: '#0F1E35', border: '1px solid #1E3050', borderRadius: '12px', padding: '1.25rem', height: '100%', display: 'flex', flexDirection: 'column' }}>
       <h3 style={{ color: '#F4F5F7', fontSize: '16px', fontWeight: '500', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Agent Activity Panel</h3>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ flex: 1, overflowY: 'auto', paddingRight: '8px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {agents.map(agent => {
           const update = agentUpdates[agent];
           const color = agentColors[agent];
