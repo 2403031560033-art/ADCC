@@ -2,19 +2,23 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-# Try to get DATABASE_URL from environment (e.g., provided by Render), fallback to local DB
-DATABASE_URL = os.getenv(
-    "DATABASE_URL", 
-    "postgresql+pg8000://postgres:Satyam%40106@localhost:5432/adcc"
-)
+# Try to get DATABASE_URL from environment
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-# SQLAlchemy requires 'postgresql://' or 'postgresql+driver://'
-if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+if DATABASE_URL:
+    # Render PostgreSQL URLs sometimes start with postgres:// instead of postgresql://
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+    
+    SQLALCHEMY_DATABASE_URL = DATABASE_URL
+    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+else:
+    # Fallback to SQLite if no database is configured (perfect for simple Render deployments)
+    SQLALCHEMY_DATABASE_URL = "sqlite:///./adcc.db"
+    engine = create_engine(
+        SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    )
 
-SQLALCHEMY_DATABASE_URL = DATABASE_URL
-
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 class Base(DeclarativeBase):
