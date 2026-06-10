@@ -7,3 +7,4 @@ pydantic
 langgraph
 ortools
 pytest
+pg8000
