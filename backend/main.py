@@ -1,7 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.db.database import Base, engine
+from backend.db import models
 from backend.api.routes import disaster, zones, agents, routes, resources, metrics, timeline
+
+# Initialize database tables automatically
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="ADCC API", version="1.0.0")
 
