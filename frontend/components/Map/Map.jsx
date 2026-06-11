@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import ReportMarkers from '../CIN/ReportMarkers';
 
 // Severity → colour mapping
 function zoneColor(severity) {
@@ -53,7 +54,7 @@ function ZoneLayer({ zones }) {
   return null;
 }
 
-export default function Map({ zones = [] }) {
+export default function Map({ zones = [], reports = [] }) {
   return (
     <MapContainer
       center={[26.5, 82.0]}
@@ -65,6 +66,7 @@ export default function Map({ zones = [] }) {
         attribution="&copy; CARTO"
       />
       <ZoneLayer zones={zones} />
+      <ReportMarkers reports={reports} />
     </MapContainer>
   );
 }

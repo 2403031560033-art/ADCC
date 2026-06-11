@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Header({ onTriggerDisaster, isLive, activeScenario }) {
+export default function Header({ onTriggerDisaster, isLive, activeScenario, extraActions }) {
   const scenario = activeScenario || { label: 'Standby', region: '—', emoji: '⚡', disaster_type: 'system' };
 
   return (
@@ -23,25 +23,28 @@ export default function Header({ onTriggerDisaster, isLive, activeScenario }) {
           )}
         </div>
       </div>
-      <button 
-        onClick={onTriggerDisaster}
-        style={{ 
-          background: isLive ? '#b33006' : '#E8410A', 
-          color: '#FFFFFF', 
-          border: 'none', 
-          padding: '10px 28px', 
-          borderRadius: '4px', 
-          fontWeight: 'bold',
-          cursor: 'pointer',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-          fontSize: '13px',
-          transition: 'background 0.3s ease',
-          boxShadow: isLive ? '0 0 16px rgba(232,65,10,0.5)' : 'none'
-        }}
-      >
-        {isLive ? '⚡ Simulation Running...' : '▶ Trigger Disaster'}
-      </button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {extraActions}
+        <button 
+          onClick={onTriggerDisaster}
+          style={{ 
+            background: isLive ? '#b33006' : '#E8410A', 
+            color: '#FFFFFF', 
+            border: 'none', 
+            padding: '10px 28px', 
+            borderRadius: '4px', 
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            fontSize: '13px',
+            transition: 'background 0.3s ease',
+            boxShadow: isLive ? '0 0 16px rgba(232,65,10,0.5)' : 'none'
+          }}
+        >
+          {isLive ? '⚡ Simulation Running...' : '▶ Trigger Disaster'}
+        </button>
+      </div>
       <style jsx global>{`
         @keyframes pulse {
           0%, 100% { opacity: 1; transform: scale(1); }

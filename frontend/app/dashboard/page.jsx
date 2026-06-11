@@ -7,6 +7,8 @@ import Header from '../../components/Header/Header';
 import KPICard from '../../components/KPI/KPICard';
 import AgentPanel from '../../components/AgentPanel/AgentPanel';
 import Timeline from '../../components/Timeline/Timeline';
+import ReportButton from '../../components/CIN/ReportButton';
+import ReportModal from '../../components/CIN/ReportModal';
 
 const Map = dynamic(() => import('../../components/Map/Map'), { ssr: false });
 
@@ -19,8 +21,9 @@ const STANDBY = { label: 'Standby — Click to Begin', disaster_type: '', region
 export default function DashboardPage() {
   const [isLive, setIsLive]               = useState(false);
   const [activeScenario, setActiveScenario] = useState(STANDBY);
+  const [showReportModal, setShowReportModal] = useState(false);
 
-  const { agentUpdates, timelineEvents, zones, metrics, isSimulationDone } = useDisasterData();
+  const { agentUpdates, timelineEvents, zones, metrics, isSimulationDone, citizenReports } = useDisasterData();
 
   // When the backend signals simulation is done → reset the button
   useEffect(() => {
@@ -70,7 +73,9 @@ export default function DashboardPage() {
 
   return (
     <div style={{ backgroundColor: '#0A1628', color: '#F4F5F7', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Header onTriggerDisaster={handleTriggerDisaster} isLive={isLive} activeScenario={activeScenario} />
+      <Header onTriggerDisaster={handleTriggerDisaster} isLive={isLive} activeScenario={activeScenario}
+        extraActions={<ReportButton onClick={() => setShowReportModal(true)} isLive={isLive} />}
+      />
 
       <div style={{ padding: '2rem', flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
@@ -82,9 +87,9 @@ export default function DashboardPage() {
           <KPICard label="Lives"      value={metrics.lives_impacted           || 0} unit=""  isActive={isLive} />
         </div>
 
-        {/* Map — only zones from the CURRENT simulation */}
+        {/* Map — zones from simulation + citizen reports */}
         <div style={{ height: '500px', borderRadius: '12px', overflow: 'hidden', border: '1px solid #1E3050' }}>
-          <Map zones={zones} />
+          <Map zones={zones} reports={citizenReports} />
         </div>
 
         {/* Bottom Row */}
@@ -123,6 +128,12 @@ export default function DashboardPage() {
           div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
         }
       `}</style>
+
+      {/* CIN — Report Modal */}
+      <ReportModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+      />
     </div>
   );
 }

@@ -17,3 +17,6 @@ async def emit_state_update(state: dict):
 
 async def emit_metrics_update(metrics: dict):
     await sio.emit("metrics_update", metrics)
+
+async def emit_citizen_report(report: dict):
+    await sio.emit("citizen_report", report)

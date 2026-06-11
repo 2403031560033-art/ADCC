@@ -6,6 +6,7 @@ from .resource import Resource
 from .route import Route
 from .agent_decision import AgentDecision
 from .timeline_event import TimelineEvent
+from .citizen_report import CitizenReport
 
 __all__ = [
     "Disaster",
@@ -15,5 +16,6 @@ __all__ = [
     "Resource",
     "Route",
     "AgentDecision",
-    "TimelineEvent"
+    "TimelineEvent",
+    "CitizenReport",
 ]

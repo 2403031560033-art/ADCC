@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     lives_impacted: 0,
   },
   isSimulationDone: false,
+  citizenReports: [],
 };
 
 let _socket = null;   // module-level singleton so page.jsx and hook share the same conn
@@ -63,12 +64,20 @@ export function useDisasterData() {
       setState(prev => ({ ...prev, isSimulationDone: true }));
     };
 
+    const onCitizenReport = (data) => {
+      setState(prev => ({
+        ...prev,
+        citizenReports: [data, ...prev.citizenReports],
+      }));
+    };
+
     socket.on('simulation_reset',   onReset);
     socket.on('agent_update',       onAgentUpdate);
     socket.on('timeline_event',     onTimelineEvent);
     socket.on('state_update',       onStateUpdate);
     socket.on('metrics_update',     onMetricsUpdate);
     socket.on('simulation_complete', onSimulationDone);
+    socket.on('citizen_report',     onCitizenReport);
 
     return () => {
       socket.off('simulation_reset',   onReset);
@@ -77,6 +86,7 @@ export function useDisasterData() {
       socket.off('state_update',       onStateUpdate);
       socket.off('metrics_update',     onMetricsUpdate);
       socket.off('simulation_complete', onSimulationDone);
+      socket.off('citizen_report',     onCitizenReport);
     };
   }, []);
 

@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.db.database import Base, engine
 from backend.db import models
-from backend.api.routes import disaster, zones, agents, routes, resources, metrics, timeline
+from backend.api.routes import disaster, zones, agents, routes, resources, metrics, timeline, reports
 
 # Initialize database tables automatically
 Base.metadata.create_all(bind=engine)
@@ -25,6 +25,7 @@ app.include_router(routes.router)
 app.include_router(resources.router)
 app.include_router(metrics.router)
 app.include_router(timeline.router)
+app.include_router(reports.router)
 
 @app.get("/")
 async def root():
